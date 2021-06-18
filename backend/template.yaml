@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Gif generator v2
+
+Parameters:
+  SourceBucketName:
+    Type: String
+    Default: 'gif-generator-v2-source'
+  GifsBucketName:
+    Type: String
+    Default: 'gif-generator-v2-gifs'
+  GenerateFrames:
+    Type: String
+    Default: true
+    AllowedValues: [true, false]
+  SnippetSize:
+    Type: Number
+    Default: 30
+  LayerARN:
+    Type: String
+    Default: 'arn:aws:lambda:us-east-1:763653534548:layer:ffmpeg:2'
+
+Resources:
+  ## S3 buckets
+  SourceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SourceBucketName
+  GifsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref GifsBucketName
+
+  ## Lambda functions
+  SnippetsFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: snippetsFunction/
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 30
+      MemorySize: 10240
+      Layers:
+        - !Ref LayerARN
+      Environment:
+        Variables:
+          SnippetSize: !Ref SnippetSize
+      Policies:
+        - EventBridgePutEventsPolicy:
+            EventBusName: "default"
+        - S3ReadPolicy:
+            BucketName: !Ref SourceBucketName    
+      Events:
+        CreatedEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref SourceBucket
+            Events: s3:ObjectCreated:*
+            Filter: 
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: '.mp4'
+ 
+  GifsFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: gifsFunction/
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 30
+      MemorySize: 4096
+      Layers:
+        - !Ref LayerARN
+      Environment:
+        Variables:
+          GenerateFrames: !Ref GenerateFrames
+          GifsBucketName: !Ref GifsBucketName
+          SourceBucketName: !Ref SourceBucketName
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref SourceBucketName
+        - S3CrudPolicy:
+            BucketName: !Ref GifsBucketName
+      Events:
+        Trigger:
+          Type: EventBridgeRule 
+          Properties:
+            Pattern:        
+              source:
+                - custom.gifGenerator
+              detail-type:
+                - newVideoCreated        

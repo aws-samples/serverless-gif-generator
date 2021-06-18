@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "us-east-1",
+            "eventTime": "2021-06-15T21:09:21.321Z",
+            "eventName": "ObjectCreated:CompleteMultipartUpload",
+            "userIdentity": {
+                "principalId": "AWS:AROA3DTKMGABCDEFG:abcd"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "3.227.24.174"
+            },
+            "responseElements": {
+                "x-amz-request-id": "DR3S2XD2B5YDJA31",
+                "x-amz-id-2": "O/sEtPTJkYsPCp1IcK+Iz2Vn5hXZ"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "82dfd33ccb2",
+                "bucket": {
+                    "name": "gif-generator-v2-source",
+                    "ownerIdentity": {
+                        "principalId": "ASRUZ4ZWI5GFR"
+                    },
+                    "arn": "arn:aws:s3:::gif-generator-v2-source"
+                },
+                "object": {
+                    "key": "example.mp4",
+                    "size": 21211564,
+                    "eTag": "7d9ca1707d95726-3",
+                    "sequencer": "0060C91721D6"
+                }
+            }
+        }
+    ]
+}
