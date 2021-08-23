@@ -19,7 +19,7 @@ Important: this application uses various AWS services and there are costs associ
 ├── README.MD              <-- This instructions file
 ├── backend                <-- Source code for the backend application
 ├── frontend               <-- Source code for the Vue.js frontend application
-├── simulator              <-- Application to generate data for testing
+├── server-example         <-- Server-based version for comparison
 ```
 
 ## Requirements
