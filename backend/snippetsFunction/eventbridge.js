@@ -10,7 +10,7 @@ const eventbridge = new AWS.EventBridge()
 
 const BATCH_SIZE = 10
 
-// Write to DDB table in batches
+// Send batch of messages to EventBridge
 const writeBatch = async (items) => {
 
 	console.log('writeBatch items: ', items.length)
@@ -29,12 +29,12 @@ const writeBatch = async (items) => {
 			}
 		})
 
-		// Create params object for DDB DocClient
+		// Create params object
 		const params = {
 			Entries: paramsArray
 		}
 
-		// Write to DDB
+		// Send to EventBridge
 		const result = await eventbridge.putEvents(params).promise()
 		console.log('Result: ', result)
 	}
