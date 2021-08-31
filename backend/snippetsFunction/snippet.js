@@ -26,7 +26,7 @@ const createSnippets = async (record) => {
 	const length = metadata.format.duration
 	console.log('Length (seconds): ', length)
 
-	// Build data array for DynamoDB
+	// Build data array for EventBridge events
 	const items = []
 	const snippetSize = parseInt(process.env.SnippetSize)
 
