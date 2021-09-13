@@ -8,7 +8,7 @@ Many video streaming services show GIF animations in the frontend when users fas
 To learn more about how this application works, see the 2-part post on the AWS Compute Blog:
 
 * Part 1: https://aws.amazon.com/blogs/compute/building-a-serverless-gif-generator-with-aws-lambda-part-1/.
-* Part 2: TBD.
+* Part 2: https://aws.amazon.com/blogs/compute/building-a-serverless-gif-generator-with-aws-lambda-part-2/.
 
 ** Running this application will incur costs. It uses services not in the AWS Free Tier and generates a large amount of data. **
 
