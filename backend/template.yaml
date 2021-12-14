@@ -31,9 +31,43 @@ Resources:
     Properties:
       BucketName: !Ref GifsBucketName
 
+  # Enforce HTTPS only access to S3 bucket #
+  BucketForImagePolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SourceBucket
+      PolicyDocument:
+        Statement:
+        - Action: s3:*
+          Effect: Deny
+          Principal: "*"
+          Resource:
+          - !Sub "arn:aws:s3:::${SourceBucket}/*"
+          - !Sub "arn:aws:s3:::${SourceBucket}"
+          Condition:
+            Bool:
+              aws:SecureTransport: false
+
+                # Enforce HTTPS only access to S3 bucket #
+  BucketForImagePolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref GifsBucket
+      PolicyDocument:
+        Statement:
+        - Action: s3:*
+          Effect: Deny
+          Principal: "*"
+          Resource:
+          - !Sub "arn:aws:s3:::${GifsBucket}/*"
+          - !Sub "arn:aws:s3:::${GifsBucket}"
+          Condition:
+            Bool:
+              aws:SecureTransport: false
+
   ## Lambda functions
   SnippetsFunction:
-    Type: AWS::Serverless::Function 
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: snippetsFunction/
       Handler: app.handler
@@ -49,21 +83,21 @@ Resources:
         - EventBridgePutEventsPolicy:
             EventBusName: "default"
         - S3ReadPolicy:
-            BucketName: !Ref SourceBucketName    
+            BucketName: !Ref SourceBucketName
       Events:
         CreatedEvent:
           Type: S3
           Properties:
             Bucket: !Ref SourceBucket
             Events: s3:ObjectCreated:*
-            Filter: 
+            Filter:
               S3Key:
                 Rules:
                   - Name: suffix
                     Value: '.mp4'
- 
+
   GifsFunction:
-    Type: AWS::Serverless::Function 
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: gifsFunction/
       Handler: app.handler
@@ -84,10 +118,10 @@ Resources:
             BucketName: !Ref GifsBucketName
       Events:
         Trigger:
-          Type: EventBridgeRule 
+          Type: EventBridgeRule
           Properties:
-            Pattern:        
+            Pattern:
               source:
                 - custom.gifGenerator
               detail-type:
-                - newVideoCreated        
+                - newVideoCreated
