@@ -20,14 +20,14 @@
                 "s3SchemaVersion": "1.0",
                 "configurationId": "82dfd33ccb2",
                 "bucket": {
-                    "name": "gif-generator-v2-source",
+                    "name": "aws-serverless-samples",
                     "ownerIdentity": {
                         "principalId": "ASRUZ4ZWI5GFR"
                     },
-                    "arn": "arn:aws:s3:::gif-generator-v2-source"
+                    "arn": "arn:aws:s3:::aws-serverless-samples"
                 },
                 "object": {
-                    "key": "example.mp4",
+                    "key": "gif-generator-demo/AWSLambdaLocalIDEExperience.mp4",
                     "size": 21211564,
                     "eTag": "7d9ca1707d95726-3",
                     "sequencer": "0060C91721D6"

@@ -101,7 +101,7 @@
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "https://gif-generator-v2-source.s3.amazonaws.com/piweek.mp4",
+            src: "https://aws-serverless-samples.s3.amazonaws.com/gif-generator-demo/AWSLambdaLocalIDEExperience.mp4",
           }],
           // poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg",
         },
